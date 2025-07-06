@@ -7,13 +7,13 @@
 <body>
 
 
-    <div class="clock">
-      <div class="clock-face">
-        <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
-        <div class="hand second-hand"></div>
-      </div>
+  <div class="clock">
+    <div class="clock-face">
+      <div class="hand hour-hand"></div>
+      <div class="hand min-hand"></div>
+      <div class="hand second-hand"></div>
     </div>
+  </div>
 
 
   <style>
@@ -57,17 +57,55 @@
     }
 
     .hand {
-      width: 50%;
       height: 6px;
       background: black;
       position: absolute;
       top: 50%;
+			transform-origin: 100%;
+			transform: rotate(90deg);
+			transition: all 50ms;
+			transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
+
+		.second-hand {
+			width: 50%;
+		}
+
+		.min-hand {
+			width: 40%;
+			left: 10%;
+		}
+
+		.hour-hand {
+			width: 30%;
+			left: 20%;
+		}
 
   </style>
 
   <script>
 
+		const secondsHand = document.querySelector(".second-hand");
+		const minutesHand = document.querySelector(".min-hand");
+		const hoursHand = document.querySelector(".hour-hand");
+
+		function updateTime() {
+			const currentTime = new Date();
+
+			const seconds = currentTime.getSeconds();
+			const secondsHandAngle = ((seconds / 60) * 360) + 90;
+			secondsHand.style.transform = `rotate(${secondsHandAngle}deg)`;
+
+			const minutes = currentTime.getMinutes();
+			const minutesHandAngle = ((minutes / 60) * 360) + 90;
+			minutesHand.style.transform = `rotate(${minutesHandAngle}deg)`;
+
+			const hours = currentTime.getHours();
+			const hoursHandAngle = ((hours / 12) * 360) + 90;
+			hoursHand.style.transform = `rotate(${hoursHandAngle}deg)`;
+		}
+
+		setInterval(updateTime, 1000);	// Poziva updateTime na svakih 1000ms
 
   </script>
 </body>
